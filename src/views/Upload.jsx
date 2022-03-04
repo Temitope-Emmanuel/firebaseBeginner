@@ -33,8 +33,7 @@ const Upload = () => {
       collection.forEach((doc) => {
         const data = doc.data();
         if (data.imageUrl) {
-          console.log(data.imageUrl);
-          newImages.push(data.imageUrl);
+          newImages.push({imageUrl: data.imageUrl, email: data.email});
         }
       });
       setImages(newImages);
@@ -71,10 +70,10 @@ const Upload = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column">
-      <SimpleGrid columns={2} spacing={10}>
+    <Box display="flex" flexDirection="column" justifyContent="center" mx="100px">
+      <SimpleGrid columns={2} spacing={4}>
         {images.map((item, idx) => (
-          <ImageLoader imageUrl={item} key={idx} />
+          <ImageLoader imageUrl={item.imageUrl} email={item.email} key={idx} />
         ))}
       </SimpleGrid>
       <Box my="10">

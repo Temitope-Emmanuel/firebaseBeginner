@@ -1,6 +1,6 @@
-import { Flex, AspectRatio, Image } from "@chakra-ui/react";
+import { Flex, AspectRatio, Image, Text } from "@chakra-ui/react";
 
-const ImageLoader = ({ imageUrl }) => {
+const ImageLoader = ({ imageUrl,email }) => {
   const basicBoxStyles = {
     display: "flex",
     alignItems: "center",
@@ -16,13 +16,11 @@ const ImageLoader = ({ imageUrl }) => {
   };
   return (
     <Flex
-      flexWrap="wrap"
-      spacing="24px"
-      gap="16px"
+      flexDirection="column"
       justifyContent="space-evenly"
     >
       {/* adding filter property to the element */}
-      <AspectRatio maxW='400px' ratio={4/3} sx={basicBoxStyles}
+      <AspectRatio maxW='400px' ratio={16/9} sx={basicBoxStyles}
         filter="grayscale(80%)"
         backgroundPosition="center"
         backgroundSize="cover"
@@ -35,20 +33,7 @@ const ImageLoader = ({ imageUrl }) => {
       >
         <Image src={imageUrl} objectFit="cover" />
       </AspectRatio>
-      {/* <Box
-        sx={basicBoxStyles}
-        filter="grayscale(80%)"
-        backgroundPosition="center"
-        backgroundSize="cover"
-        backgroundRepeat="no-repeat"
-        backgroundImage={`url(${imageUrl})`}
-        borderRadius="md"
-        _hover={{
-          filter: "grayscale(0%)",
-        }}
-      >
-        Box with Filter
-      </Box> */}
+      <Text>{email}</Text>
     </Flex>
   );
 };
