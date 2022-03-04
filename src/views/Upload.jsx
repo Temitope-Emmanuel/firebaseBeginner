@@ -1,10 +1,10 @@
 import React from 'react'
-
+import ImageLoader from '../components/ImageLoader'
 
 const Upload = () => {
     return(
         <div>
-            <p>This is the upload page</p>
+            <ImageLoader/>
         </div>
     )
 }
