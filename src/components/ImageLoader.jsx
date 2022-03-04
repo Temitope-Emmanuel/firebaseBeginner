@@ -1,6 +1,6 @@
 import {Flex, Box} from "@chakra-ui/react";
 
-const ImageLoader = () => {
+const ImageLoader = ({imageUrl}) => {
     const basicBoxStyles = {
       display: 'flex',
       alignItems: 'center',
@@ -11,10 +11,9 @@ const ImageLoader = () => {
       textShadow: '0 0 20px black',
       fontWeight: 'bold',
       fontSize: '20px',
+      transition:'filter .3s ease-in',
       px: 4,
-      background:
-        'url(https://picsum.photos/id/1080/200/300) center/cover no-repeat',
-    }
+     }
     return (
       <Flex
         flexWrap='wrap'
@@ -23,12 +22,17 @@ const ImageLoader = () => {
         justifyContent='space-evenly'
       >
         {/* adding filter property to the element */}
-        <Box sx={basicBoxStyles} filter='grayscale(80%)'>
+        <Box sx={basicBoxStyles} filter='grayscale(80%)'
+            backgroundPosition='center'
+            backgroundSize='cover'
+            backgroundRepeat='no-repeat'
+            backgroundImage={`url(${imageUrl})`}
+            borderRadius="md"
+            _hover={{
+                filter: 'grayscale(0%)'
+            }}
+        >
           Box with Filter
-        </Box>
-        {/* adding blur property to the element */}
-        <Box sx={basicBoxStyles} filter='auto' blur='2px' _ho>
-          Box with Blur
         </Box>
       </Flex>
     )

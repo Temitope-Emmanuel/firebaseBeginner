@@ -1,5 +1,6 @@
 import React from 'react';
 import { initializeApp } from "firebase/app"
+import {getStorage} from "firebase/storage"
 import {getFirestore} from 'firebase/firestore/lite'
 import {getAuth, onAuthStateChanged} from "firebase/auth"
 
@@ -35,10 +36,10 @@ const createGenericContext = () => {
 const [useFirebaseService,FirebaseServiceContextProvider] = createGenericContext()
 
 export const FirebaseContextProvider = ({children}) => {
-    const db = getFirestore(app)
-    const [currentUser, setCurrentUser] = React.useState({})
     const auth = getAuth(app)
-    
+    const db = getFirestore(app)
+    const storage = getStorage(app)
+    const [currentUser, setCurrentUser] = React.useState({})
     React.useEffect(() => {
         onAuthStateChanged(auth, user => {
             if(user){
@@ -50,7 +51,7 @@ export const FirebaseContextProvider = ({children}) => {
     },[])
     
     return(
-        <FirebaseServiceContextProvider value={{db, auth, currentUser}}>
+        <FirebaseServiceContextProvider value={{db, auth, storage, currentUser}}>
             {children}
         </FirebaseServiceContextProvider>
     )
