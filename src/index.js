@@ -5,11 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {ChakraProvider} from "@chakra-ui/react"
 import {theme} from './utils/theme';
+import {FirebaseContextProvider} from './utils/firebase';
 
 const Root = () => {
   return(
     <ChakraProvider theme={theme}>
-      <App/>
+      <FirebaseContextProvider>
+        <App/>
+      </FirebaseContextProvider>
     </ChakraProvider>
   )
 }
