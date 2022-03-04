@@ -7,14 +7,17 @@ import {
   FormLabel,
   Text,
   Button,
+  useToast,
 } from "@chakra-ui/react";
-import {DownloadIcon} from "@chakra-ui/icons";
-import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import { DownloadIcon } from "@chakra-ui/icons";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc, onSnapshot } from "firebase/firestore";
 import useFirebaseService from "../utils/firebase";
 
 const Upload = () => {
-    const {storage} = useFirebaseService();
-    const [url, setUrl] = React.useState('')
+  const toast = useToast();
+  const { storage, db, currentUser } = useFirebaseService();
+  const [images, setImages] = React.useState([]);
   const [file, setFile] = React.useState({});
   const [isUploading, setIsUploading] = React.useState(false);
 
@@ -23,21 +26,54 @@ const Upload = () => {
       setFile(e.target.files[0]);
     }
   };
+
+  React.useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "images"), (collection) => {
+      const newImages = [];
+      collection.forEach((doc) => {
+        const data = doc.data();
+        if (data.imageUrl) {
+          console.log(data.imageUrl);
+          newImages.push(data.imageUrl);
+        }
+      });
+      setImages(newImages);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   const handleUpload = () => {
     setIsUploading(true);
-    const storageRef = ref(storage, file.name)
-    uploadBytes(storageRef, file).then(snapshot => {
-        getDownloadURL(ref(storage, file.name))
-        .then(url => {
-            setUrl(url)
+    const storageRef = ref(storage, `images/${file.name}`);
+    uploadBytes(storageRef, file).then(() => {
+      getDownloadURL(ref(storage, `images/${file.name}`)).then(async (url) => {
+        await addDoc(collection(db, "images"), {
+          imageUrl: url,
+          email: currentUser.email,
+        });
+        setIsUploading(false);
+        toast({
+          title:"Successfully uploaded image",
+          description: `image ${file.name} has been successfully uploaded`,
+          status: "success"
         })
-    })
+      }).catch(err => {
+        toast({
+          title: "Something went wrong",
+          description: err.message,
+          status: "error",
+        })
+      })
+      setFile({})
+    });
   };
 
   return (
     <Box display="flex" flexDirection="column">
       <SimpleGrid columns={2} spacing={10}>
-        {["https://picsum.photos/id/1080/200/300", url].map((item, idx) => (
+        {images.map((item, idx) => (
           <ImageLoader imageUrl={item} key={idx} />
         ))}
       </SimpleGrid>

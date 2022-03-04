@@ -1,18 +1,18 @@
 import React from 'react';
 import { initializeApp } from "firebase/app"
 import {getStorage} from "firebase/storage"
-import {getFirestore} from 'firebase/firestore/lite'
+import {getFirestore} from 'firebase/firestore'
 import {getAuth, onAuthStateChanged} from "firebase/auth"
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDzNmeAu-CLWrpHZ5Gm4Y7mJPDBY4ojEwg",
-    authDomain: "versustrade-63646.firebaseapp.com",
-    databaseURL: "https://versustrade-63646-default-rtdb.firebaseio.com",
-    projectId: "versustrade-63646",
-    storageBucket: "versustrade-63646.appspot.com",
-    messagingSenderId: "320179652216",
-    appId: "1:320179652216:web:cfacb578bb8d0c087b8f8d",
-    measurementId: "G-6N5RF8TCWC"
+    apiKey:process.env.REACT_APP_apiKey,
+    authDomain:process.env.REACT_APP_authDomain,
+    databaseURL:process.env.REACT_APP_databaseURL,
+    projectId:process.env.REACT_APP_projectId,
+    storageBucket:process.env.REACT_APP_storageBucket,
+    messagingSenderId:process.env.REACT_APP_messagingSenderId,
+    appId:process.env.REACT_APP_appId,
+    measurementId:process.env.REACT_APP_measurementId
 }
 
 const app = initializeApp(firebaseConfig)

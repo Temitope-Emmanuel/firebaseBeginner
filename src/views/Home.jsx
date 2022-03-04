@@ -8,11 +8,13 @@ import {
   FormHelperText,
   Text,
   Button,
+  useToast
 } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import useFirebaseService from "../utils/firebase";
 
 const Home = () => {
+  const toast = useToast();
   const navigate = useNavigate();
   const { auth } = useFirebaseService();
   const [loading, setIsLoading] = React.useState(false);
@@ -29,9 +31,20 @@ const Home = () => {
     setIsLoading(true)
     createUserWithEmailAndPassword(auth, email, password).then(
       (userCredential) => {
+        toast({
+          title:"Successfully created user",
+          description: "user successfully logged in",
+          status:"success"
+        })
         navigate("/upload", { replace: true });
       }
-    );
+    ).catch(err => {
+      toast({
+        title: "Something went wrong",
+        description: err.message,
+        status: "error"
+      })
+    });
   };
 
   return (
