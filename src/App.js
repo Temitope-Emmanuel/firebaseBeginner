@@ -1,20 +1,21 @@
 import './App.css';
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
-import About from './views/About'
-import Home from './views/Home'
-import Upload from './views/Upload'
+import {Box} from "@chakra-ui/react";
+import Upload from './views/Upload';
+import About from './views/About';
+import Home from './views/Home';
 
 function App() {
   return (
     <Router>
       <div>
         <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/upload">Upload</Link></li>
-          </ul>
+          <Box className="d-flex" display='flex' dir='row' justifyContent='space-between' w='75%' mx='auto' my='5'>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/upload">Upload</Link>
+          </Box>
         </nav>
         <Routes>
           <Route path="/" element={<Home/>} />
